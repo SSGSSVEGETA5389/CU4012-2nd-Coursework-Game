@@ -30,7 +30,7 @@ Menu::Menu(sf::RenderWindow* hwnd, Input* in, GameState* game)
 	UIText[0].text.setFillColor(sf::Color::Red);
 	UIText[0].text.setString("Play");
 	UIText[0].text.setPosition(sf::Vector2f(600,120));
-	UIText[0].setCollisionBox(sf::FloatRect(600, 135, 35, 15));
+	UIText[0].setCollisionBox(sf::FloatRect(600, 120, 100, 30));
 
 
 
@@ -38,14 +38,12 @@ Menu::Menu(sf::RenderWindow* hwnd, Input* in, GameState* game)
 	UIText[1].text.setFillColor(sf::Color::White);
 	UIText[1].text.setString("Exit");
 	UIText[1].text.setPosition(sf::Vector2f(600,150));
-	UIText[1].setCollisionBox(sf::FloatRect(600, 165, 35, 15));
-
-
+	UIText[1].setCollisionBox(sf::FloatRect(600, 160, 100, 30));
 
 	selectedItem = 0;
 
 	mouseOverAnyItem = false;
-
+	DebugRender = false;
 }
 Menu::~Menu()
 {
@@ -151,11 +149,14 @@ void Menu::render()
 	}
 
 	//Uncomment so debug shapes for the menu text
-	//for (int i = 0; i < 2; i++)
-	//{
-	//	window->draw(UIText[i].getDebugShape());
-	//}
-
+	
+	if (DebugRender)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			window->draw(UIText[i].getDebugShape());
+		}
+	}
 	endDraw();
 }
 

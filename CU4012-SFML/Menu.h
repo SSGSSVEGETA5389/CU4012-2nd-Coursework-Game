@@ -46,6 +46,8 @@ public:
 
 	sf::Vector2i MousePos;
 
+	bool DebugRender; 
+
 	bool mouseOverAnyItem;
 
 };

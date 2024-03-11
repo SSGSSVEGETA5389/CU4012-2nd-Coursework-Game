@@ -58,14 +58,21 @@ public:
 
 	void setTag(const std::string& t) { tag = t; }
 	std::string getTag() { return tag; }
-	bool CollisionWithTag(const std::string& otherTag) { return collidingTag == otherTag; }
+	bool CollisionWithTag(const std::string& otherTag) 
+	{ 
+		if (collidingTag == otherTag)
+		{
+			return true;
+		}
+		return false;
+	 }
 
 	bool checkCollision(GameObject* other);
 	void updateCollisionBox(float dt);
 	void collisionResponse(GameObject* collider);
 
 	void clearCollision() { collidingTag = ""; }
-
+	std::string getCollidingTag() { return collidingTag; }
 
 	// Set the input component
 	void setInput(Input* in) { input = in; };

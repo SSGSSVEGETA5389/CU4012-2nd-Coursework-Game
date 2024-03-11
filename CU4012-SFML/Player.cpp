@@ -14,7 +14,7 @@ Player::Player()
 	setSize(sf::Vector2f(100, 100));
 	setCollisionBox(getPosition(), getSize());
 	setMass(100.f);
-	setTag("Player");
+	setTag("player");
 }
 
 void Player::handleInput(float dt)

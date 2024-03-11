@@ -13,7 +13,6 @@
 #include "Enemy.h"
 #include "Ground.h"
 
-
 class Level : public BaseLevel{
 public:
 	Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, World* w);
@@ -26,7 +25,7 @@ public:
 private:
 	// Default variables for level class.
 
-	Ground ground
+	Ground ground;
 
 	//Player 
 	Player Player; 
@@ -37,6 +36,6 @@ private:
 	sf::Texture backgroundTex; 
 
 	//Enemy 
-	Enemy Enemy1; 
-	Enemy Enemy2;  
+	Enemy e1; 
+
 };

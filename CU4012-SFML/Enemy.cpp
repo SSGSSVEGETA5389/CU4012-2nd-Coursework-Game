@@ -12,28 +12,12 @@ Enemy::Enemy()
 	}
 	setTexture(&texture);
 	setSize(sf::Vector2f(100, 100));
+	setPosition(500, 100);
 	setCollisionBox(getPosition(), getSize());
 	setTag("Enemy");
 	setMass(50.f);
 }
-
-Enemy::~Enemy()
+void Enemy::update(float dt)
 {
-
-
-}
-
-void Enemy::update(float dt, sf::Vector2f& movement)
-{
-	if (getPosition().x <= 0 || getPosition().x >= window->getSize().x - getSize().x)
-	{
-		movement.x = -movement.x;
-	}
-
-	if (getPosition().y <= 0 || getPosition().y >= window->getSize().y - getSize().y)
-	{
-		movement.y = -movement.y;
-
-	}
 	move(velocity * speed * dt);
 }

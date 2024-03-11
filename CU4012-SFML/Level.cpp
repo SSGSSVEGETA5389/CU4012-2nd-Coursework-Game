@@ -17,26 +17,17 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, World* w)
 	Player.setPosition(100, 100);
 	Player.setInput(input);
 
-	
+	bg.setScale(3, 3);
 
 	// Background 
-
-	backgroundTex.loadFromFile("gfx/Background.png"); 
-
-	bg.setTexture(&backgroundTex); 
-	bg.setSize(sf::Vector2f(11038, 675)); 
 	bg.setInput(input); 
 	bg.setWindow(window); 
 
 
-	//Enemy 
-	Enemy1.setPosition(500, 100);
-
 
 	world->AddGameObject(Player);
-	world->AddGameObject(Enemy1);
+	world->AddGameObject(e1);
 	world->AddGameObject(ground);
-
 }
 
 Level::~Level()
@@ -62,10 +53,11 @@ void Level::handleInput(float dt)
 // Update game objects
 void Level::update(float dt)
 {
-	if(p1.CollisionWithTag("Enemy"))
-	{ 
-		
+	if (Player.CollisionWithTag("Enemy"))
+	{
+		//std::cout << "Player is colliding with the Enemy\n";
 	}
+
 }
 
 // Render level
@@ -82,11 +74,13 @@ void Level::render()
 	window->draw(Player.getDebugCollisionBox());
 
 
-	window->draw(Enemy1);
-	window->draw(Enemy1.getDebugCollisionBox());
+	window->draw(e1);
+	window->draw(e1.getDebugCollisionBox());
 
 
 	window->draw(ground.getDebugCollisionBox());
+
+
 
 	endDraw();
 }
