@@ -1,23 +1,16 @@
 #pragma once
 #include "Framework/GameObject.h"
+#include <iostream>
+
 class Player : public GameObject
 {
-public: 
-
-	Player(); 
-	~Player();
-
-
-	void update(float dt);
+	int health;
+	float speed;
+	sf::Texture texture;
+public:
+	Player();
 
 	void handleInput(float dt);
-
-
-
-
-	void CollisionResponse(GameObject* collider); 
-	
-
-
+	void update(float dt);
 };
 

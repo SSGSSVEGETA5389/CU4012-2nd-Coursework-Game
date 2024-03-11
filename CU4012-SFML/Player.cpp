@@ -3,61 +3,46 @@
 Player::Player()
 {
  
-
+	health = 100;
+	speed = 200;
 	
-
-
+	if (!texture.loadFromFile("gfx/Player.png"))
+	{
+		std::cout << "File not found\n";
+	}
+	setTexture(&texture);
+	setSize(sf::Vector2f(100, 100));
+	setCollisionBox(getPosition(), getSize());
+	setMass(100.f);
+	setTag("Player");
 }
 
-Player::~Player()
+void Player::handleInput(float dt)
 {
+	if (input->isKeyDown(sf::Keyboard::A))
+	{
+		velocity = sf::Vector2f(-1 * speed, 0);
+	}
+	else if (input->isKeyDown(sf::Keyboard::D))
+	{
+		velocity = sf::Vector2f(1 * speed, 0);
+	}
+	else if (input->isKeyDown(sf::Keyboard::S))
+	{
+		velocity = sf::Vector2f(0, 1 * speed);
+	}
 
-
+	else if (input->isKeyDown(sf::Keyboard::W))
+	{
+		velocity = sf::Vector2f(0, -1 * speed);
+	}
+	else
+	{
+		velocity = sf::Vector2f(0, 0);
+	}
 
 }
 
 void Player::update(float dt)
 {
-
-
-
-}
-
-void Player::handleInput(float dt)
-{
-	if (input->isKeyDown(sf::Keyboard::W))
-	{
-		
-		move(0, -0.1);
-
-	}
-	if (input->isKeyDown(sf::Keyboard::S))
-	{
-		
-		move(0, 0.1);
-
-	}
-	if (input->isKeyDown(sf::Keyboard::A))
-	{
-		
-		move(-0.1, 0);
-
-	}
-	if (input->isKeyDown(sf::Keyboard::D))
-	{
-		
-		move(0.1, 0);
-
-	}
-
-}
-
-
-
-void Player::CollisionResponse(GameObject* collider)
-{
-	velocity.x = -velocity.x; 
-
-	collider->setVelocity(-collider->getVelocity());
-
 }

@@ -5,23 +5,16 @@
 #include "Enemy.h"
 
 
-Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs)
+Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, World* w)
 {
 
 
 	window = hwnd;
 	input = in;
 	gameState = gs;
-
+	world = w;
 	// initialise game objects
-
-	//Player 
-	PlayerTex.loadFromFile("gfx/Player.png");
-
-	Player.setTexture(&PlayerTex); 
-	Player.setSize(sf::Vector2f(100, 100));
-	Player.setPosition(sf::Vector2f(100, 100));
-	Player.setVelocity(250, 250); 
+	Player.setPosition(100, 100);
 	Player.setInput(input);
 
 	
@@ -37,11 +30,13 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs)
 
 
 	//Enemy 
-	e1.loadFromFile("gfx/Enemy.png");
+	Enemy1.setPosition(500, 100);
 
-	Enemy1.setTexture(&e1);
-	Enemy1.setSize(sf::Vector2f(100, 100)); 
-	Enemy1.setPosition(500, 500); 
+
+	world->AddGameObject(Player);
+	world->AddGameObject(Enemy1);
+	world->AddGameObject(ground);
+
 }
 
 Level::~Level()
@@ -52,29 +47,46 @@ Level::~Level()
 // handle user input
 void Level::handleInput(float dt)
 {
+
 	//To make the player move. 
 	Player.handleInput(dt);
 	//To make background move.
 	bg.handleInput(dt); 
+
+	if (input->isKeyDown(sf::Keyboard::Escape))
+	{
+		exit(0);
+	}
 }
 
 // Update game objects
 void Level::update(float dt)
 {
-	
+	if(p1.CollisionWithTag("Enemy"))
+	{ 
+		
+	}
 }
 
 // Render level
 void Level::render()
 {
 	beginDraw();
+
 	//Background rendered 
 	window->draw(bg);
-	//Player rendered
-	window->draw(Player);
-	//Enemy 1
-	window->draw(Enemy1);
 
+
+
+	window->draw(Player);
+	window->draw(Player.getDebugCollisionBox());
+
+
+	window->draw(Enemy1);
+	window->draw(Enemy1.getDebugCollisionBox());
+
+
+	window->draw(ground.getDebugCollisionBox());
 
 	endDraw();
 }

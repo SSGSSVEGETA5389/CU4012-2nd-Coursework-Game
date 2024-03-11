@@ -3,6 +3,7 @@
 #include "Framework/Input.h"
 #include "Framework/GameState.h"
 #include"Framework/Collision.h"
+#include "Framework/UI.h"
 #include <string>
 #include <iostream>
 #include"Level.h"
@@ -20,6 +21,7 @@ public:
 	void render();
 	void MoveUp();
 	void MoveDown();
+	void updateVisualFeedback();
 	int GetPressedItem() { return selectedItem; }
 
 
@@ -27,21 +29,24 @@ public:
 	Input* input;
 	GameState* gameState;
 
-	Level* level1;
-
 	int selectedItem;
-	sf::Font font;
-	sf::Font title;
+	sf::Font UIfont;
+	sf::Font titleFont;
+
 	sf::Text Title;
-	sf::Text menu[2];
+	UI UIText[2];
+	
 	void beginDraw();
 	void endDraw();
+
 
 
 	sf::Sprite menu_sprite;
 	sf::Texture menu_texture;
 
+	sf::Vector2i MousePos;
 
+	bool mouseOverAnyItem;
 
 };
 

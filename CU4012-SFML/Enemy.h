@@ -1,15 +1,16 @@
 #pragma once
 #include "Framework/GameObject.h"
-class Enemy : public GameObject
+#include <iostream>
+class Enemy :
+    public GameObject
 {
-public: 
+    int health;
+    float speed;
+    sf::Texture texture;
 
-	Enemy(); 
-	~Enemy(); 
+public:
+    Enemy();
 
-	void update(float dt, sf::Vector2f& movement); 
-
-	void BoundaryCheck(sf::Vector2f& movement);
-
+    void update(float dt, sf::Vector2f& movement);
 };
 
