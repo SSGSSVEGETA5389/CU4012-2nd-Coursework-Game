@@ -2,34 +2,22 @@
 
 Enemy::Enemy()
 {
+	health = 100;
+	speed = 150;
+	velocity.x = -1;
 
-
-}
-
-Enemy::~Enemy()
-{
-
-
-}
-
-void Enemy::update(float dt, sf::Vector2f& movement)
-{
-	if (getPosition().x <= 0 || getPosition().x >= window->getSize().x - getSize().x)
+	if (!texture.loadFromFile("gfx/Enemy.png"))
 	{
-		movement.x = -movement.x;
+		std::cout << "File not found\n";
 	}
-
-	if (getPosition().y <= 0 || getPosition().y >= window->getSize().y - getSize().y)
-	{
-		movement.y = -movement.y;
-
-	}
-
+	setTexture(&texture);
+	setSize(sf::Vector2f(100, 100));
+	setPosition(500, 100);
+	setCollisionBox(getPosition(), getSize());
+	setTag("Enemy");
+	setMass(50.f);
 }
-
-void Enemy::BoundaryCheck(sf::Vector2f& movement)
+void Enemy::update(float dt)
 {
-
-	BoundaryCheck(movement);
-	//move(movement * dt);
+	move(velocity * speed * dt);
 }

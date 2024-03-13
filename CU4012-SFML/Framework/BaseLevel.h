@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Input.h"
 #include "GameState.h"
+#include "World.h"
 #include <string>
 #include <iostream>
 
@@ -25,5 +26,6 @@ protected:
 	sf::RenderWindow* window;
 	Input* input;
 	GameState* gameState;
+	World* world;
 };
 

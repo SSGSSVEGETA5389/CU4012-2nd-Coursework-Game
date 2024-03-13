@@ -1,20 +1,2 @@
-﻿  Background.cpp
-  Enemy.cpp
-  BaseLevel.cpp
-  Collision.cpp
-  GameObject.cpp
-  GameState.cpp
-  Input.cpp
-  Level.cpp
-  Main.cpp
-  Menu.cpp
-  Player.cpp
-C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Player.cpp(31,15): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Player.cpp(37,14): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Player.cpp(43,15): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Player.cpp(49,14): warning C4305: 'argument': truncation from 'double' to 'float'
-  Squares.cpp
-  Generating Code...
-C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Menu.cpp(113): warning C4715: 'Menu::handleInput': not all control paths return a value
-C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Enemy.cpp(35): warning C4717: 'Enemy::BoundaryCheck': recursive on all control paths, function will cause runtime stack overflow
+﻿  Platform.cpp
   CU4012-SFML.vcxproj -> C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\x64\Debug\CU4012-SFML.exe
