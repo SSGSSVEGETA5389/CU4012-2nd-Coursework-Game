@@ -2,15 +2,16 @@
 
 Platform::Platform()
 {
-	platformerTex.loadFromFile("gfx/Platform.png"); 
+	/*platformerTex.loadFromFile("gfx/Platform.png"); 
 
 	setTexture(&platformerTex);
-	setPosition(500, 500);
-	setSize(sf::Vector2f(800, 50));
+	setPosition(100, 500);
+	setSize(sf::Vector2f(100, 50));
 	setOrigin(getSize() / 2.f);
 	setCollisionBox(getPosition(), getSize());
 	setTag("Ground");
-	setStatic(true);
+	setStatic(true);*/
+
 
 }
 

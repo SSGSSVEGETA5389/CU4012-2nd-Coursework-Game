@@ -10,8 +10,8 @@ class World
 	sf::Vector2f gravity;
 
 public:
-	World(sf::Vector2f gravity);
-
+	World();
+	void setGravity(sf::Vector2f g) { gravity = g; }
 	void AddGameObject(GameObject& obj);
 	void RemoveGameObject(GameObject& obj);
 	void UpdatePhysics(float deltaTime);

@@ -140,8 +140,12 @@
     <ClCompile Include="Framework\GameObject.cpp" />
     <ClCompile Include="Framework\GameState.cpp" />
     <ClCompile Include="Framework\Input.cpp" />
+    <ClCompile Include="Framework\TileManager.cpp" />
+    <ClCompile Include="Framework\Tiles.cpp" />
     <ClCompile Include="Framework\World.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -157,9 +161,13 @@
     <ClInclude Include="Framework\GameObject.h" />
     <ClInclude Include="Framework\GameState.h" />
     <ClInclude Include="Framework\Input.h" />
+    <ClInclude Include="Framework\TileManager.h" />
+    <ClInclude Include="Framework\Tiles.h" />
     <ClInclude Include="Framework\UI.h" />
     <ClInclude Include="Framework\World.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="HealthBar.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Platform.h" />

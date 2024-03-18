@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework/GameObject.h"
 #include <iostream>
+#include <string>
 class Enemy :
     public GameObject
 {
@@ -12,5 +13,7 @@ public:
     Enemy();
 
     void update(float dt);
+
+    void setCustomTexture(std::string path);
 };
 

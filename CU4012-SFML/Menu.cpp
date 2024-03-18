@@ -51,6 +51,7 @@ Menu::~Menu()
 
 void Menu::update(float dt)
 {
+	selectedItem;
 	mouseOverAnyItem = false; // Reset this flag each frame
 
 	// Update mouse position

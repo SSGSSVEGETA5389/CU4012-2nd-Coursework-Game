@@ -2,18 +2,18 @@
 
 Background::Background()
 {
-	backgroundTex.loadFromFile("gfx/Background.png");
+    if (!backgroundTex.loadFromFile("gfx/Background.png")) {
+        // Handle error loading texture
+    }
 
-	setTexture(&backgroundTex);
-	setSize(sf::Vector2f(698, 478));
+    setTexture(&backgroundTex);
+   setSize(sf::Vector2f(698, 478));
+
+    // Set initial position
+    setPosition(0, 0);
 }
-
 Background::~Background()
 {
 
 }
 
-void Background::handleInput(float dt)
-{
-
-}

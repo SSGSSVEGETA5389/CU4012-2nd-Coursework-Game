@@ -1,7 +1,7 @@
 
 #include "World.h"
 
-World::World(sf::Vector2f gravity) : gravity(gravity)
+World::World()
 {
 }
 
@@ -25,9 +25,6 @@ void World::UpdatePhysics(float deltaTime)
 
     // Apply gravity to all non-static objects and update their physics
     for (auto& obj : objects) {
-        if (!obj->getStatic()) {
-            obj->move(gravity * obj->getMass() * deltaTime);
-        }
         // Update object physics
         obj->UpdatePhysics(&gravity, deltaTime);
         obj->update(deltaTime);

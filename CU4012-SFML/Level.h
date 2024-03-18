@@ -5,6 +5,7 @@
 #include "Framework/Input.h"
 #include "Framework/GameState.h"
 #include "Framework/World.h"
+#include "Framework/TileManager.h"
 #include <string>
 #include <iostream>
 #include "Player.h"
@@ -23,6 +24,10 @@ public:
 	void update(float dt) override;
 	void render();
 
+	void moveView(float dt);
+	void Reset();
+
+	void adjustViewToWindowSize(unsigned int width, unsigned int height);
 private:
 	// Default variables for level class.
 
@@ -33,8 +38,7 @@ private:
 
 	
 
-	Background bg; 
-	sf::Texture backgroundTex; 
+	Background bg[3];
 
 	//Enemy 
 	Enemy e1; 
@@ -42,5 +46,13 @@ private:
 	//Platform
 
 	Platform platform; 
+
+	sf::View view;
+
+	sf::Text TileEditorText;
+	sf::Font font;
+
+	bool editMode;
+	TileManager tileManager;
 
 };

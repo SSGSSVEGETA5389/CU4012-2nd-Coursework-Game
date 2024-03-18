@@ -2,10 +2,10 @@
 
 Player::Player()
 {
- 
 	health = 100;
 	speed = 200;
-	
+
+
 	if (!texture.loadFromFile("gfx/Player.png"))
 	{
 		std::cout << "File not found\n";
@@ -14,35 +14,32 @@ Player::Player()
 	setSize(sf::Vector2f(100, 100));
 	setCollisionBox(getPosition(), getSize());
 	setMass(100.f);
-	setTag("player");
+	setTag("Player");
 }
 
 void Player::handleInput(float dt)
 {
+	velocity.x = 0.f;
+
+	// Update velocity based on input
 	if (input->isKeyDown(sf::Keyboard::A))
 	{
-		velocity = sf::Vector2f(-1 * speed, 0);
+		// Update only the horizontal component, preserving vertical velocity
+		velocity.x = -speed;
 	}
-	else if (input->isKeyDown(sf::Keyboard::D))
+	if (input->isKeyDown(sf::Keyboard::D))
 	{
-		velocity = sf::Vector2f(1 * speed, 0);
-	}
-	else if (input->isKeyDown(sf::Keyboard::S))
-	{
-		velocity = sf::Vector2f(0, 1 * speed);
+		// Update only the horizontal component, preserving vertical velocity
+		velocity.x = speed;
 	}
 
-	else if (input->isKeyDown(sf::Keyboard::W))
+	if (input->isKeyDown(sf::Keyboard::Space) && canJump)
 	{
-		velocity = sf::Vector2f(0, -1 * speed);
+		Jump(200.f);
 	}
-	else
-	{
-		velocity = sf::Vector2f(0, 0);
-	}
-
 }
 
 void Player::update(float dt)
 {
+
 }

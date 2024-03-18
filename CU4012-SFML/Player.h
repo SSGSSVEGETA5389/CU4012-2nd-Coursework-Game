@@ -1,7 +1,6 @@
 #pragma once
 #include "Framework/GameObject.h"
 #include <iostream>
-
 class Player : public GameObject
 {
 	int health;
