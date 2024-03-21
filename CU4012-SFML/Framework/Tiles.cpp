@@ -67,7 +67,7 @@ void Tiles::handleInput(float dt)
 		}
 	}
 
-	//// Check to exit editing mode
+	////// Check to exit editing mode
 	//if (input->isKeyDown(sf::Keyboard::Return)) {
 	//	editing = false;
 	//	input->setKeyUp(sf::Keyboard::Return); // Acknowledge the key press to prevent sticking

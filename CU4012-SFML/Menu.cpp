@@ -20,10 +20,10 @@ Menu::Menu(sf::RenderWindow* hwnd, Input* in, GameState* game)
 
 	Title.setFont(titleFont);
 	Title.setFillColor(sf::Color::Magenta);
-	Title.setString("Game");
+	Title.setString("Urban Hippo Hustle:Downtown Dash");
 	Title.setOutlineColor(sf::Color::Black);
-	Title.setCharacterSize(70);
-	Title.setPosition(500, 50);
+	Title.setCharacterSize(50);
+	Title.setPosition(200, 50);
 
 
 	UIText[0].text.setFont(UIfont);

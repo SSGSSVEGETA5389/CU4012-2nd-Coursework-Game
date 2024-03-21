@@ -14,9 +14,9 @@ GameOver::GameOver(sf::RenderWindow* hwnd, Input* in, GameState* game)
 	UIfont.loadFromFile("font/PixelTex.ttf");
 	titleFont.loadFromFile("font/PixelTex.ttf");
 
-	menu_texture.loadFromFile("gfx/GameOver.png");
-	menu_sprite.setTexture(menu_texture);
-	menu_sprite.setScale(12, 12);
+	gameOver_texture.loadFromFile("gfx/GameOver.png");
+	gameOver_sprite.setTexture(gameOver_texture);
+	gameOver_sprite.setScale(10, 10);
 
 
 
@@ -128,6 +128,7 @@ int GameOver::handleInput(float dt)
 			std::cout << "Exit Button has been pressed" << std::endl;
 			exit(0);
 			break;
+			
 		}
 
 		// Reset input states
@@ -146,7 +147,7 @@ int GameOver::handleInput(float dt)
 void GameOver::render()
 {
 	beginDraw();
-	window->draw(menu_sprite);
+	window->draw(gameOver_sprite);
 	window->draw(Title);
 	for (int i = 0; i < 2; i++)
 	{

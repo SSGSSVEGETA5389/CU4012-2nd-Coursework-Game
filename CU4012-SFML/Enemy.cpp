@@ -11,7 +11,7 @@ Enemy::Enemy()
 	setPosition(500, 100);
 	setCollisionBox(getPosition(), getSize());
 	setTag("Enemy");
-	setMass(50.f);
+	setMass(100.f);
 }
 void Enemy::update(float dt)
 {

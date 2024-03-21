@@ -41,7 +41,8 @@ private:
 	Background bg[3];
 
 	//Enemy 
-	Enemy e1; 
+	Enemy e1;
+	 
 
 	//Platform
 
@@ -54,5 +55,7 @@ private:
 
 	bool editMode;
 	TileManager tileManager;
+
+	
 
 };

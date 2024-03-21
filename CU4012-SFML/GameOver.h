@@ -42,8 +42,8 @@ public:
 
 
 
-	sf::Sprite menu_sprite;
-	sf::Texture menu_texture;
+	sf::Sprite gameOver_sprite;
+	sf::Texture gameOver_texture;
 
 	sf::Vector2i MousePos;
 

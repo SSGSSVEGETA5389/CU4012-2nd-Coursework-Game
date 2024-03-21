@@ -100,6 +100,7 @@ void Level::handleInput(float dt)
 		//To make the player move. 
 		Player.handleInput(dt);
 	}
+
 }
 
 // Update game objects
@@ -117,10 +118,19 @@ void Level::update(float dt)
 		}
 
 	}
-	if (Player.getPosition().y > 2000)
+	if (Player.getPosition().y > 1500)
 	{
 		Reset();
 		gameState->setCurrentState(State::GAMEOVER);
+	}
+	if (e1.CollisionWithTag("Wall"))
+	{
+		e1.setVelocity(-e1.getVelocity().x, e1.getVelocity().y);
+	}
+	if (Player.getPosition().x > 3200)
+	{
+		Reset();
+		gameState->setCurrentState(State::WINNER);
 	}
 	if (e1.CollisionWithTag("Wall"))
 	{
@@ -178,6 +188,8 @@ void Level::render()
 	tileManager.render();
 	window->draw(TileEditorText);
 
+	
+
 	endDraw();
 }
 void Level::moveView(float dt)
@@ -206,10 +218,20 @@ void Level::moveView(float dt)
 
 void Level::Reset()
 {
-	Player.setPosition(100, 100);
+	Player.setPosition(100, 50);
 	sf::Vector2f viewSize = sf::Vector2f(window->getSize().x, window->getSize().y);
 	view.setCenter(viewSize);
 	window->setView(view);
+
+
+	e1.setPosition(500, 100);
+	e1.setVelocity(sf::Vector2f(100, 100)); 
+	e1.setAlive(true); // Set the enemy to alive state
+
+	
+	// Reset view to the center of the window
+	adjustViewToWindowSize(window->getSize().x, window->getSize().y);
+
 }
 
 void Level::adjustViewToWindowSize(unsigned int width, unsigned int height)
