@@ -15,7 +15,6 @@ Enemy::Enemy()
 }
 void Enemy::update(float dt)
 {
-	//move(velocity * speed * dt);
 }
 
 void Enemy::setCustomTexture(std::string path)

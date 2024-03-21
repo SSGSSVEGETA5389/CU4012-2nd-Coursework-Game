@@ -6,10 +6,14 @@ class Player : public GameObject
 	int health;
 	float speed;
 	sf::Texture texture;
+	int numberOfCollectables;
 public:
 	Player();
 
 	void handleInput(float dt);
 	void update(float dt);
+
+	void AddCollectable(int c) {numberOfCollectables += c;}
+	int getCollectables() { return numberOfCollectables; }
 };
 

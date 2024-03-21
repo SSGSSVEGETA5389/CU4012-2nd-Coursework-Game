@@ -39,7 +39,18 @@ void TileManager::handleInput(float dt)
             if (activeTileIndex == -1) {
                 auto newTile = std::make_unique<Tiles>();
                 newTile->setPosition(worldPos.x, worldPos.y);
-                newTile->setTexture(&tileTexture);
+                if (newTile->getTag() == "Collectable")
+                {
+                    newTile->setTexture(&collectableTexture);
+                    newTile->setTrigger(true);
+                    newTile->setMassless(true);
+                    newTile->setStatic(false);
+
+                }
+                if (newTile->getTag() == "Platform")
+                {
+                    newTile->setTexture(&platformTexture);
+                }
                 world->AddGameObject(*newTile);
                 tiles.push_back(std::move(newTile));
                 activeTileIndex = tiles.size() - 1; // Select the newly added tile
@@ -58,6 +69,8 @@ void TileManager::handleInput(float dt)
     if (activeTileIndex != -1) {
         tiles[activeTileIndex]->setInput(input);
         tiles[activeTileIndex]->handleInput(dt);
+        // Similar for "Platform"
+
         // If editing is finished (the tile itself should be responsible for setting this)
         if (!tiles[activeTileIndex]->isEditing()) {
             activeTileIndex = -1;
@@ -101,12 +114,35 @@ void TileManager::update(float dt)
 }
 
 
-void TileManager::render()
+void TileManager::render(bool editMode)
 {
+
     for (auto& tilePtr : tiles) {
         if (tilePtr) { // Check if the pointer is not null
-            window->draw(*tilePtr); // Dereference the pointer to get the Tiles object
-            window->draw(tilePtr->getDebugCollisionBox());
+            if (editMode)
+            {
+                if (showDebugCollisionBox) window->draw(tilePtr->getDebugCollisionBox());
+
+                if (tilePtr->getTag() == "Collectable")
+                {
+                    window->draw(*tilePtr); // Dereference the pointer to get the Tiles object
+                }
+                if (tilePtr->getTag() == "Platform")
+                {
+                    window->draw(*tilePtr); // Dereference the pointer to get the Tiles object
+                }
+            }
+            else
+            {
+                if (tilePtr->getTag() == "Collectable")
+                {
+                    window->draw(*tilePtr); // Dereference the pointer to get the Tiles object
+                }
+                if (tilePtr->getTag() == "Platform")
+                {
+                    window->draw(*tilePtr); // Dereference the pointer to get the Tiles object
+                }
+            }
         }
     }
 }
@@ -153,7 +189,18 @@ bool TileManager::loadTiles()
                 newTile->setTag(seglist[0]);
                 newTile->setPosition(sf::Vector2f(std::stof(seglist[1]), std::stof(seglist[2])));
                 newTile->setSize(sf::Vector2f(std::stof(seglist[3]), std::stof(seglist[4])));
-                newTile->setTexture(&tileTexture);
+                if (newTile->getTag() == "Collectable")
+                {
+                    newTile->setTexture(&collectableTexture);
+                    newTile->setTrigger(true);
+                    newTile->setStatic(false);
+                    newTile->setMassless(true);
+                }
+                if (newTile->getTag() == "Platform")
+                {
+                    //std::cout << "Platform Found in the data\n";
+                    newTile->setTexture(&platformTexture);
+                }
                 world->AddGameObject(*newTile);
                 tiles.push_back(std::move(newTile));
                 //std::cout<<"Tiles: "<<tiles.size()<<std::endl;  
@@ -162,7 +209,6 @@ bool TileManager::loadTiles()
         }
 
         return true;
-
     }
 
     return false;
@@ -172,12 +218,35 @@ std::vector<std::unique_ptr<Tiles>>& TileManager::getTiles() {
     return tiles;
 }
 
-void TileManager::setCustomTexture(std::string texPath)
+void TileManager::setCollectableTexture(std::string path)
 {
-
-    if (!tileTexture.loadFromFile(texPath)) {
-        // Handle error loading texture
-        std::cout << "Texture not Found Tile Manager Class \n";
+    if (!collectableTexture.loadFromFile(path))
+    {
+        std::cout << "Tile Manager file not found\n";
     }
+}
+
+void TileManager::setPlatformTexture(std::string path)
+{
+    if (!platformTexture.loadFromFile(path))
+    {
+        std::cout << "Tile Manager file not found\n";
+    }
+}
+
+void TileManager::RemoveCollectable()
+{
+    auto newEnd = std::remove_if(tiles.begin(), tiles.end(),
+        [this](const std::unique_ptr<Tiles>& tilePtr) -> bool
+        {
+            if (tilePtr->CollisionWithTag("Player") && tilePtr->getTag()== "Collectable")
+            {
+                world->RemoveGameObject(*tilePtr);
+                return true; // Mark for removal
+            }
+            return false; // Keep in the vector
+        });
+
+    tiles.erase(newEnd, tiles.end());
 }
 

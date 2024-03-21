@@ -2,10 +2,10 @@
 
 GameObject::GameObject()
 {
-	input = nullptr;
-	window = nullptr;
-	alive = true;
-	Colliding = false;
+    input = nullptr;
+    window = nullptr;
+    alive = true;
+    Colliding = false;
 
     collisionBoxDebug.setFillColor(sf::Color::Transparent);
     collisionBoxDebug.setOutlineColor(sf::Color::Red);
@@ -29,53 +29,53 @@ void GameObject::update(float dt)
 
 void GameObject::updateCollisionBox(float dt)
 {
-	collisionBox = sf::FloatRect(getPosition().x, getPosition().y, getSize().x, getSize().y);
-	setDebugCollisionBox(getPosition().x, getPosition().y, getSize().x, getSize().y);
+    collisionBox = sf::FloatRect(getPosition().x, getPosition().y, getSize().x, getSize().y);
+    setDebugCollisionBox(getPosition().x, getPosition().y, getSize().x, getSize().y);
 
 }
 
 // Sets the velocity of the sprite
 void GameObject::setVelocity(sf::Vector2f vel)
 {
-	if(!isStatic)
-	{ 
-		velocity = vel;
-	}
+    if (!isStatic)
+    {
+        velocity = vel;
+    }
 }
 void GameObject::setVelocity(float vx, float vy)
 {
-	if (!isStatic)
-	{
-		velocity.x = vx;
-		velocity.y = vy;
-	}
+    if (!isStatic)
+    {
+        velocity.x = vx;
+        velocity.y = vy;
+    }
 }
 
 void GameObject::applyImpulse(sf::Vector2f impulse)
 {
-	if (!isStatic)
-	{
-		velocity += impulse/mass;
-	}
+    if (!isStatic)
+    {
+        velocity += impulse / mass;
+    }
 }
 
 // get sprite velocity
 sf::Vector2f GameObject::getVelocity()
 {
-	return velocity;
+    return velocity;
 }
 
 // Returns collision box + position, giving the collision box in the correct position
 sf::FloatRect GameObject::getCollisionBox() {
-	
-	return collisionBox;
+
+    return collisionBox;
 
 }
 
 void GameObject::setDebugCollisionBox(float x, float y, float w, float h)
 {
-	collisionBoxDebug.setPosition(sf::Vector2f(x, y));
-	collisionBoxDebug.setSize(sf::Vector2f(w, h));
+    collisionBoxDebug.setPosition(sf::Vector2f(x, y));
+    collisionBoxDebug.setSize(sf::Vector2f(w, h));
 }
 
 bool GameObject::checkCollision(GameObject* otherBox)
@@ -85,6 +85,17 @@ bool GameObject::checkCollision(GameObject* otherBox)
         return false; // No collision detection between two tiles
     }
 
+    if (otherBox->getTag() == "Collectable" && tag =="Enemy" || otherBox->getTag() == "Enemy" && tag == "Collectable")
+    {
+		return false;
+	}
+
+    //Check if both objects are tagged as Enemy if they are , skip collision detection
+    // This is to prevent the enemy from colliding with each other
+    if (otherBox->getTag() == "Enemy" && tag == "Enemy")
+    {
+		return false;
+	}
     // Get the collision box for both objects
     sf::FloatRect otherCollisionBox = otherBox->getCollisionBox();
 
@@ -207,7 +218,7 @@ bool GameObject::checkCollision(GameObject* otherBox)
 
                     //Collision on the right
                     if (!otherBox->getStatic())
-					{ 
+                    {
                         Direction.x = 1.f;
                         Direction.y = 0.f;
                     }
@@ -277,8 +288,11 @@ void GameObject::collisionResponse(GameObject* collider)
     {
         collidingTag = collider->getTag();
     }
+    else if (collider->getTile() && collider->getTag() == "Collectable")
+    {
+        collidingTag = collider->getTag();
+    }
 }
-
 void GameObject::Jump(float jumpHeight)
 {
     velocity.y = -sqrt(2.0f * 981.0f * jumpHeight);
@@ -290,40 +304,43 @@ std::string GameObject::getCollisionDirection()
     //If the direction is not 0,0
     if (Direction.x != 0 || Direction.y != 0)
     {
-		//If the direction is 1,0
+        //If the direction is 1,0
         if (Direction.x == 1)
         {
-			return "Right";
-		}
-		//If the direction is -1,0
+            return "Right";
+        }
+        //If the direction is -1,0
         if (Direction.x == -1)
         {
-			return "Left";
-		}
-		//If the direction is 0,1
+            return "Left";
+        }
+        //If the direction is 0,1
         if (Direction.y == 1)
         {
-			return "Down";
-		}
-		//If the direction is 0,-1
+            return "Down";
+        }
+        //If the direction is 0,-1
         if (Direction.y == -1)
         {
-			return "Up";
-		}
-	}
-	return "None";
+            return "Up";
+        }
+    }
+    return "None";
 }
 
 
 
-void GameObject::UpdatePhysics(sf::Vector2f* gravity,float deltaTime)
+void GameObject::UpdatePhysics(sf::Vector2f* gravity, float deltaTime)
 {
     if (!isStatic)
     {
-        velocity.y += gravity->y * deltaTime;
+        if (!isMassless)
+        {
+            velocity.y += gravity->y * deltaTime;
 
-        // Clamp the gravity so that the object does not fall through the floor also known as tunneling
-        velocity.y = std::min(velocity.y, gravity->y);
+            // Clamp the gravity so that the object does not fall through the floor also known as tunneling
+            velocity.y = std::min(velocity.y, gravity->y);
+        }
         angularVelocity += torque * deltaTime;
         setRotation(getRotation() + angularVelocity * deltaTime);
         move(velocity * deltaTime);

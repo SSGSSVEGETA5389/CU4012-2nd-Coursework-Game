@@ -4,6 +4,9 @@ class Tiles :
     public GameObject
 {
     bool editing; // To track editing mode
+
+    sf::Texture collectableTexture;
+    sf::Texture platformTexture;
 public:
     Tiles();
 

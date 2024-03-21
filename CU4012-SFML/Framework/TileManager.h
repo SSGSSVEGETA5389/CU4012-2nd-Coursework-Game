@@ -11,8 +11,6 @@
 class TileManager :
     public GameObject
 {
-
-    std::string CustomTileTexturePath;
     int activeTileIndex = -1; // -1 indicates no tile is actively being edited
     bool tilesLoaded = false;
     //std::vector<Tiles> tiles;
@@ -20,14 +18,20 @@ class TileManager :
     std::vector<std::unique_ptr<Tiles>> tiles;
 
     std::string filePath; // File to store tile data
-    sf::Texture tileTexture;
+
     World* world;
+
+    sf::Texture collectableTexture;
+    sf::Texture platformTexture;
+
+    bool showDebugCollisionBox;
+
 public:
     TileManager();
 
     void update(float dt) override;
     void handleInput(float dt) override;
-    void render();
+    void render(bool editMode);
 
     void saveTiles(const std::vector<std::unique_ptr<Tiles>>& tiles, const std::string& filePath);
     bool loadTiles();
@@ -38,6 +42,11 @@ public:
 
     std::string getFilePath() { return filePath; }
 
-    void setCustomTexture(std::string texturePath);
-};
+    void setCollectableTexture(std::string path);
 
+    void setPlatformTexture(std::string path);
+
+    void RemoveCollectable();
+
+    void ShowDebugCollisionBox(bool b) { showDebugCollisionBox = b; }
+};

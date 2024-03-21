@@ -29,7 +29,18 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, World* w)
 	tileManager.setInput(input);
 	tileManager.setWindow(window);
 	tileManager.setWorld(world);
-	tileManager.setCustomTexture("gfx/Platform.png");
+	tileManager.ShowDebugCollisionBox(true);
+	tileManager.setPlatformTexture("gfx/Platform.png");
+	tileManager.setCollectableTexture("gfx/MushroomTrans.png");
+
+	//Collectables Collected Text
+	CollectablesCollectedText.setFont(font);
+	CollectablesCollectedText.setCharacterSize(24);
+	CollectablesCollectedText.setFillColor(sf::Color::Green);
+	CollectablesCollectedText.setPosition(window->getSize().x, 0);
+	CollectablesCollectedText.setString("Collected: ");
+
+
 	// initialise game objects
 	Player.setPosition(100, 100);
 	Player.setInput(input);
@@ -43,6 +54,22 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, World* w)
 		bg[i].setPosition(bg[i].getSize().x*i, 0);
 	}
 	e1.setCustomTexture("gfx/Enemy.png"); 
+
+	// Write a for loop for setting the enemyArray variables texture 
+	for (size_t i = 0; i < 10; i++)
+	{
+		enemyArray[i].setCustomTexture("gfx/Enemy.png");
+		enemyArray[i].setPosition(500, 100);
+		enemyArray[i].setVelocity(sf::Vector2f(100, 100));
+		enemyArray[i].setAlive(true);
+		world->AddGameObject(enemyArray[i]);
+	
+	}
+
+	enemyArray[0].setPosition(500, 100);
+	enemyArray[0].setCustomTexture("gfx/Enemy.png");
+
+
 
 	world->AddGameObject(Player);
 	world->AddGameObject(e1);
@@ -108,6 +135,9 @@ void Level::update(float dt)
 {
 	sf::Vector2f viewSize = sf::Vector2f(window->getSize().x, window->getSize().y);
 
+	CollectablesCollectedText.setPosition(view.getCenter().x - viewSize.x / 14, view.getCenter().y - viewSize.y / 2);
+
+
 	if (Player.CollisionWithTag("Enemy"))
 	{
 		if (Player.getCollisionDirection() == "Down")
@@ -118,15 +148,24 @@ void Level::update(float dt)
 		}
 
 	}
+	if (Player.CollisionWithTag("Collectable"))
+	{
+		// Player is Colliding with Collectable
+		Player.AddCollectable(1); // Increment Collectable count
+		tileManager.RemoveCollectable(); // Remove the collectable
+
+		// Update the CollectablesCollectedText to display the new number of rings collected
+		int collectableCount = Player.getCollectables(); // Assume p1 is the player object and has the getCollectablesCount method
+		CollectablesCollectedText.setString("Collected: " + std::to_string(collectableCount));
+	}
+
+
 	if (Player.getPosition().y > 1500)
 	{
 		Reset();
 		gameState->setCurrentState(State::GAMEOVER);
 	}
-	if (e1.CollisionWithTag("Wall"))
-	{
-		e1.setVelocity(-e1.getVelocity().x, e1.getVelocity().y);
-	}
+
 	if (Player.getPosition().x > 3200)
 	{
 		Reset();
@@ -140,7 +179,7 @@ void Level::update(float dt)
 	if (editMode)
 	{
 		TileEditorText.setPosition(view.getCenter().x - viewSize.x / 2, view.getCenter().y - viewSize.y / 2);
-		TileEditorText.setString("Editing mode\nLeft Mouse Button to place tile\nPress B to set collider as a wall (allows bouncing) \nPress E to exit and Save");
+		TileEditorText.setString("Editing mode\nLeft Mouse Button to place tile\nPress B to set collider as a wall (allows bouncing)\n Press C to make it a collectable\n Press P to make it a Platform\nPress E to exit and Save");
 		tileManager.handleInput(dt);
 		tileManager.update(dt);
 	}
@@ -148,11 +187,15 @@ void Level::update(float dt)
 	{
 		TileEditorText.setString("Press E to edit tiles");
 
-		view.setCenter(view.getCenter().x, 360);
+		view.setCenter(view.getCenter().x, view.getCenter().y);
 
 		sf::Vector2f playerPos = Player.getPosition();
 		float newX = std::max(playerPos.x, view.getSize().x / 2.0f);
-		view.setCenter(newX, playerPos.y);
+		float newY = std::max(playerPos.y, view.getSize().y / 2.0f);
+
+		newY = std::min(newY, 1000.0f); // This clamps the newY to not exceed 1000
+
+		view.setCenter(newX, newY);
 		window->setView(view);
 	}
 
@@ -172,23 +215,24 @@ void Level::render()
 
 
 	window->draw(Player);
-	window->draw(Player.getDebugCollisionBox());
+	//window->draw(Player.getDebugCollisionBox());
 
 
 	if (e1.isAlive())
 	{
 		window->draw(e1);
-		window->draw(e1.getDebugCollisionBox());
+		//window->draw(e1.getDebugCollisionBox());
 	}
 
 
 	window->draw(ground.getDebugCollisionBox());
 
 	window->draw(platform);
-	tileManager.render();
-	window->draw(TileEditorText);
+	tileManager.render(editMode);
 
-	
+	window->draw(TileEditorText);
+	window->draw(CollectablesCollectedText);
+
 
 	endDraw();
 }
@@ -227,11 +271,10 @@ void Level::Reset()
 	e1.setPosition(500, 100);
 	e1.setVelocity(sf::Vector2f(100, 100)); 
 	e1.setAlive(true); // Set the enemy to alive state
-
+	world->AddGameObject(e1); // Add the enemy back to the world
 	
 	// Reset view to the center of the window
 	adjustViewToWindowSize(window->getSize().x, window->getSize().y);
-
 }
 
 void Level::adjustViewToWindowSize(unsigned int width, unsigned int height)

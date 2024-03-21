@@ -1,5 +1,10 @@
 ﻿  Level.cpp
-C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(59,77): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(40,57): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(86,77): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=unsigned int
@@ -8,7 +13,7 @@ C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursew
           [
               T=float
           ]
-C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(59,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(86,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=unsigned int
@@ -17,7 +22,7 @@ C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursew
           [
               T=float
           ]
-C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(109,77): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(136,77): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=unsigned int
@@ -26,7 +31,7 @@ C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursew
           [
               T=float
           ]
-C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(109,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(136,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=unsigned int
@@ -35,7 +40,7 @@ C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursew
           [
               T=float
           ]
-C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(222,77): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(266,77): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=unsigned int
@@ -44,7 +49,7 @@ C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursew
           [
               T=float
           ]
-C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(222,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\higta\OneDrive\Desktop\Games Programming work\Github\CU4012-2nd-Coursework-Game\CU4012-SFML\Level.cpp(266,56): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=unsigned int

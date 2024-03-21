@@ -65,7 +65,7 @@ public:
 	void setStatic(bool s) { isStatic = s; }
 	bool getStatic() { return isStatic; }
 
-
+	void setMassless(bool m) { isMassless = m; }
 	float getMass() const
 	{
 		return isStatic ? std::numeric_limits<float>::infinity() : mass;
@@ -145,8 +145,8 @@ private:
 	bool isStatic;
 	bool isTrigger;
 	bool isTile;
+	bool isMassless;
 
-	
 
 	//Movement variables
 	sf::Vector2f Direction;
