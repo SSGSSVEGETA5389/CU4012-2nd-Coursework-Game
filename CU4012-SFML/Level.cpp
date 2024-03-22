@@ -31,7 +31,7 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, World* w)
 	tileManager.setWorld(world);
 	tileManager.ShowDebugCollisionBox(true);
 	tileManager.setPlatformTexture("gfx/Platform.png");
-	tileManager.setCollectableTexture("gfx/MushroomTrans.png");
+	tileManager.setCollectableTexture("gfx/Item.png");
 
 	//Collectables Collected Text
 	CollectablesCollectedText.setFont(font);
@@ -45,6 +45,8 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, World* w)
 	Player.setPosition(100, 100);
 	Player.setInput(input);
 
+	
+
 
 	// Background 
 
@@ -56,23 +58,56 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, World* w)
 	e1.setCustomTexture("gfx/Enemy.png"); 
 
 	// Write a for loop for setting the enemyArray variables texture 
-	for (size_t i = 0; i < 10; i++)
+	for (size_t i = 0; i < 4; i++)
 	{
 		enemyArray[i].setCustomTexture("gfx/Enemy.png");
-		enemyArray[i].setPosition(500, 100);
-		enemyArray[i].setVelocity(sf::Vector2f(100, 100));
 		enemyArray[i].setAlive(true);
 		world->AddGameObject(enemyArray[i]);
 	
 	}
 
-	enemyArray[0].setPosition(500, 100);
-	enemyArray[0].setCustomTexture("gfx/Enemy.png");
+	//// Adds the other enemy (Having issues with enemy image loading in, the enemy is loaded in, but doesn't move or can be seen.)
+
+	//Enemy one 
+	enemyArray[0].setPosition(500, 100); 
+	enemyArray[0].setVelocity(100, 0); 
+	
+	//Enemy two
+	enemyArray[1].setPosition(500, 300);
+	enemyArray[1].setVelocity(100, 0);
+
+	//Enemy three 
+	enemyArray[2].setPosition(500, 500);
+	enemyArray[2].setVelocity(100, 0);
+
+	//Enemy four
+	enemyArray[3].setPosition(500, 700);
+	enemyArray[3].setVelocity(100, 0);
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (enemyArray[i].CollisionWithTag("Player"))
+		{
+			//std::cout << enemyArray[i].getCollisionDirection() << std::endl;
+			if (enemyArray[i].getCollisionDirection() == "Up")
+			{
+				enemyArray[i].setAlive(false);
+				world->RemoveGameObject(enemyArray[i]);
+			}
+			else
+			{
+				std::cout << "Player hit enemy from the side\n";
+				Player.setPosition(100, 100);
+			}
+		}
+	}
 
 
+	//Add all the gameobjects into the world.
 
 	world->AddGameObject(Player);
-	world->AddGameObject(e1);
+	//world->AddGameObject(e1);
+	world->AddGameObject(enemyArray[3]);
 	world->AddGameObject(ground);
 
 	if (!tileManager.loadTiles())
@@ -159,12 +194,14 @@ void Level::update(float dt)
 		CollectablesCollectedText.setString("Collected: " + std::to_string(collectableCount));
 	}
 
-
+	//When the player goes over a certain position on the Y axis (Downwards), this should trigger a game over screen.
 	if (Player.getPosition().y > 1500)
 	{
 		Reset();
 		gameState->setCurrentState(State::GAMEOVER);
 	}
+
+	//When the player goes over a certain position on the X axis (Right), this should trigger the winning screen.
 
 	if (Player.getPosition().x > 3200)
 	{
@@ -199,6 +236,21 @@ void Level::update(float dt)
 		window->setView(view);
 	}
 
+	// Loop through enemyArray to handle collisions and update enemies
+	for (size_t i = 0; i < 4; i++)
+	{
+		// Check collision with player
+		if (Player.CollisionWithTag("Enemy"))
+		{
+			if (Player.getCollisionDirection() == "Down")
+			{
+				std::cout << "Player hit enemy from above\n";
+				enemyArray[i].setAlive(false); // Set enemy to be removed
+				world->RemoveGameObject(enemyArray[i]); // Remove the enemy from the world
+			}
+		}
+
+	}
 }
 
 // Render level
@@ -232,6 +284,13 @@ void Level::render()
 
 	window->draw(TileEditorText);
 	window->draw(CollectablesCollectedText);
+	
+	for (size_t i = 0; i < 4; i++)
+	{
+		window->draw(enemyArray[i]);
+
+	}
+
 
 
 	endDraw();
@@ -259,6 +318,8 @@ void Level::moveView(float dt)
 	window->setView(view);
 
 }
+
+//This resets the whole level once the restart button has been pressed on either Game over state, or winning screen state.
 
 void Level::Reset()
 {

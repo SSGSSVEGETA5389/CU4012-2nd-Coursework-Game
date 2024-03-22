@@ -44,7 +44,7 @@ private:
 	//Enemy 
 	Enemy e1;
 	int NumberOfEnemies = 10;
-	Enemy enemyArray[10];
+	Enemy enemyArray[4];
 
 
 	//Platform
