@@ -45,7 +45,7 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, World* w)
 	Player.setPosition(100, 100);
 	Player.setInput(input);
 
-	
+
 
 
 	// Background 
@@ -53,9 +53,9 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, World* w)
 	for (size_t i = 0; i < 3; i++)
 	{
 		bg[i].setScale(3, 3);
-		bg[i].setPosition(bg[i].getSize().x*i, 0);
+		bg[i].setPosition(bg[i].getSize().x * i, 0);
 	}
-	e1.setCustomTexture("gfx/Enemy.png"); 
+	e1.setCustomTexture("gfx/Enemy.png");
 
 	// Write a for loop for setting the enemyArray variables texture 
 	for (size_t i = 0; i < 4; i++)
@@ -63,51 +63,34 @@ Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, World* w)
 		enemyArray[i].setCustomTexture("gfx/Enemy.png");
 		enemyArray[i].setAlive(true);
 		world->AddGameObject(enemyArray[i]);
-	
+
 	}
 
-	//// Adds the other enemy (Having issues with enemy image loading in, the enemy is loaded in, but doesn't move or can be seen.)
+	//// Adds the other enemy 
 
 	//Enemy one 
-	enemyArray[0].setPosition(500, 100); 
-	enemyArray[0].setVelocity(100, 0); 
-	
+	enemyArray[0].setPosition(100, 70);
+	enemyArray[0].setVelocity(100, 0);
+
 	//Enemy two
-	enemyArray[1].setPosition(500, 300);
+	enemyArray[1].setPosition(400, 400);
 	enemyArray[1].setVelocity(100, 0);
 
 	//Enemy three 
-	enemyArray[2].setPosition(500, 500);
+	enemyArray[2].setPosition(800, 500);
 	enemyArray[2].setVelocity(100, 0);
 
 	//Enemy four
-	enemyArray[3].setPosition(500, 700);
+	enemyArray[3].setPosition(850, 600);
 	enemyArray[3].setVelocity(100, 0);
 
-	for (int i = 0; i < 4; i++)
-	{
-		if (enemyArray[i].CollisionWithTag("Player"))
-		{
-			//std::cout << enemyArray[i].getCollisionDirection() << std::endl;
-			if (enemyArray[i].getCollisionDirection() == "Up")
-			{
-				enemyArray[i].setAlive(false);
-				world->RemoveGameObject(enemyArray[i]);
-			}
-			else
-			{
-				std::cout << "Player hit enemy from the side\n";
-				Player.setPosition(100, 100);
-			}
-		}
-	}
+
 
 
 	//Add all the gameobjects into the world.
 
 	world->AddGameObject(Player);
 	//world->AddGameObject(e1);
-	world->AddGameObject(enemyArray[3]);
 	world->AddGameObject(ground);
 
 	if (!tileManager.loadTiles())
@@ -173,15 +156,26 @@ void Level::update(float dt)
 	CollectablesCollectedText.setPosition(view.getCenter().x - viewSize.x / 14, view.getCenter().y - viewSize.y / 2);
 
 
-	if (Player.CollisionWithTag("Enemy"))
+	for (int i = 0; i < 4; i++)
 	{
-		if (Player.getCollisionDirection() == "Down")
+		if (enemyArray[i].CollisionWithTag("Player"))
 		{
-			std::cout << "Player hit enemy from above\n";
-			e1.setAlive(false);
-			world->RemoveGameObject(e1);
+			std::cout << enemyArray[i].getCollisionDirection() << std::endl;
+			if (enemyArray[i].getCollisionDirection() == "Up")
+			{
+				enemyArray[i].setAlive(false);
+				world->RemoveGameObject(enemyArray[i]);
+			}
+			else
+			{
+				std::cout << "Player hit enemy from the side\n";
+				Player.setPosition(100, 100);
+			}
 		}
-
+		else if (enemyArray[i].CollisionWithTag("Wall"))
+		{
+			enemyArray[i].setVelocity(-enemyArray[i].getVelocity().x, enemyArray[i].getVelocity().y);
+		}
 	}
 	if (Player.CollisionWithTag("Collectable"))
 	{
@@ -208,10 +202,8 @@ void Level::update(float dt)
 		Reset();
 		gameState->setCurrentState(State::WINNER);
 	}
-	if (e1.CollisionWithTag("Wall"))
-	{
-		e1.setVelocity(-e1.getVelocity().x, e1.getVelocity().y);
-	}
+	
+
 
 	if (editMode)
 	{
@@ -235,22 +227,6 @@ void Level::update(float dt)
 		view.setCenter(newX, newY);
 		window->setView(view);
 	}
-
-	// Loop through enemyArray to handle collisions and update enemies
-	for (size_t i = 0; i < 4; i++)
-	{
-		// Check collision with player
-		if (Player.CollisionWithTag("Enemy"))
-		{
-			if (Player.getCollisionDirection() == "Down")
-			{
-				std::cout << "Player hit enemy from above\n";
-				enemyArray[i].setAlive(false); // Set enemy to be removed
-				world->RemoveGameObject(enemyArray[i]); // Remove the enemy from the world
-			}
-		}
-
-	}
 }
 
 // Render level
@@ -269,14 +245,13 @@ void Level::render()
 	window->draw(Player);
 	//window->draw(Player.getDebugCollisionBox());
 
-
-	if (e1.isAlive())
+	for (size_t i = 0; i < 4; i++)
 	{
-		window->draw(e1);
-		//window->draw(e1.getDebugCollisionBox());
+		if (enemyArray[i].isAlive())
+		{
+			window->draw(enemyArray[i]);
+		}
 	}
-
-
 	window->draw(ground.getDebugCollisionBox());
 
 	window->draw(platform);
@@ -284,12 +259,7 @@ void Level::render()
 
 	window->draw(TileEditorText);
 	window->draw(CollectablesCollectedText);
-	
-	for (size_t i = 0; i < 4; i++)
-	{
-		window->draw(enemyArray[i]);
 
-	}
 
 
 
@@ -329,11 +299,11 @@ void Level::Reset()
 	window->setView(view);
 
 
-	e1.setPosition(500, 100);
-	e1.setVelocity(sf::Vector2f(100, 100)); 
+	e1.setPosition(200, 70);
+	e1.setVelocity(sf::Vector2f(100, 100));
 	e1.setAlive(true); // Set the enemy to alive state
 	world->AddGameObject(e1); // Add the enemy back to the world
-	
+
 	// Reset view to the center of the window
 	adjustViewToWindowSize(window->getSize().x, window->getSize().y);
 }
