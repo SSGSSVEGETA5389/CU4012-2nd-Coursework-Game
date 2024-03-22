@@ -121,26 +121,26 @@ void Level::handleInput(float dt)
 	}
 
 	// Check if 'E' is pressed to toggle editing mode
-	if (input->isKeyDown(sf::Keyboard::E))
-	{
-		// First, if we're in edit mode, we save the tiles
-		if (editMode)
-		{
-			std::cout << "Exiting edit mode. Saving tiles...\n";
-			tileManager.saveTiles(tileManager.getTiles(), tileManager.getFilePath());
-		}
-		// Then toggle the edit mode
-		editMode = !editMode;
-		input->setKeyUp(sf::Keyboard::E); // Acknowledge the key press
-	}
+	//if (input->isKeyDown(sf::Keyboard::E))
+	//{
+	//	// First, if we're in edit mode, we save the tiles
+	//	if (editMode)
+	//	{
+	//		std::cout << "Exiting edit mode. Saving tiles...\n";
+	//		tileManager.saveTiles(tileManager.getTiles(), tileManager.getFilePath());
+	//	}
+	//	// Then toggle the edit mode
+	//	editMode = !editMode;
+	//	input->setKeyUp(sf::Keyboard::E); // Acknowledge the key press
+	//}
 
-	if (editMode)
-	{
-		// Handle moving the view or other edit-mode-specific logic
-		moveView(dt);
-		//tileManager.handleInput(dt); // tileManager might have its own logic for when editing is true
-	}
-	else
+	//if (editMode)
+	//{
+	//	// Handle moving the view or other edit-mode-specific logic
+	//	moveView(dt);
+	//	//tileManager.handleInput(dt); // tileManager might have its own logic for when editing is true
+	//}
+	//else
 	{
 		//To make the player move. 
 		Player.handleInput(dt);
@@ -257,7 +257,7 @@ void Level::render()
 	window->draw(platform);
 	tileManager.render(editMode);
 
-	window->draw(TileEditorText);
+	if (editMode) window->draw(TileEditorText);
 	window->draw(CollectablesCollectedText);
 
 
